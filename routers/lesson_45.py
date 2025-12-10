@@ -3,46 +3,54 @@ from aiogram.types import Message, CallbackQuery
 from .keyboards_45 import get_kb_45
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 import random
+import textwrap
 router = Router()
 
 
 TASK_45_1_TEXTS = [
     "— Как долго ... до станции?",
     "— Если вы ... через поле - 25 минут.",
-    "Если вы любите гулять в лесу, то до станции вы ... (3) за 15 минут.",
+    "Если вы любите гулять в лесу, то до станции вы ... за 15 минут.",
     "Если вы ... быка, то вы ... до станции за 5 минут."
 ]
-
 TASK_45_1_WRONG = {
     0 : ["ходить", "пойти"],       # для (1)
     1 : ["идёте", "пошли"],     # для (2)
     2 : ["доходите", "пошли"],  # для (3)
     3 : ["погоняете, придёте", "кормите, пойдёте"], # для (4)
 }
-
 TASK_45_1_CORRECT = {
     0 : "идти",
     1 : "пойдёте",
     2 : "дойдёте",
     3 : "возьмёте, дойдёте",
 }
+
+TASK_45_2_TEXTS = """
+Мы приехали в театр, когда спектакль уже начался. В [____] концерта музыкант исполнял концерт Чайковского.
+Через пять минут лекция закончится. В [____] лекции студенты обычно задают свои вопросы.
+Диалог президентов продолжался 30 минут. Потом был перерыв. Все ждали [____] диалога.
+Певица исполняла известную песню. Нам понравилось её [____].
+"""
+TASK_45_2_TEXTS = [sent.strip() for sent in TASK_45_2_TEXTS.split('\n') if sent]
+TASK_45_2_CORRECT = ['начале', 'конце', 'продолжения', 'исполнение']
+TARGET_45_2 = "Задание 2. Заполните пропуски однокоренными существительными."
+TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
+REMOVES_45_2 = {
+    'начале': 'начало',
+    'конце': 'конец',
+    'продолжения': 'продолжение',
+    'исполнение': 'исполнение'
+}
+
+
+
 @router.message(F.text == "/lesson_45")
 async def lesson_45_start(message: Message):
     await message.answer(
         "Урок 45 — выберите задание:",
         reply_markup=get_kb_45()
     )
-
-# @router.callback_query(F.data == "task_45_1")
-# async def lesson_45_task_1(callback: CallbackQuery):
-#     await callback.answer()
-#     await callback.message.answer("Задание 1 для урока 45")
-#
-# @router.callback_query(F.data == "task_45_2")
-# async def lesson_45_task_2(callback: CallbackQuery):
-#     await callback.answer()
-#     await callback.message.answer("Задание 2 для урока 45")
-
 
 
 current_index_45_1 = {}
@@ -58,6 +66,7 @@ current_buttons_45_4 = {}
 current_buttons_45_5 = {}
 current_buttons_45_6 = {}
 
+#функция отправки кнопок для 1-ой задачи
 async def send_45_1(message_or_callback, user_id):
     try:
         index = current_index_45_1[user_id]
@@ -67,8 +76,8 @@ async def send_45_1(message_or_callback, user_id):
         random.shuffle(all_possible_answers)
 
         builder = InlineKeyboardBuilder()
-        for i, answ in enumerate(all_possible_answers):
-            builder.button(text=answ, callback_data=f"b_45_1_{index}_{i}")
+        for i, answer in enumerate(all_possible_answers):
+            builder.button(text=answer, callback_data=f"b_45_1_{index}_{i}")
         if index != 3:
             builder.adjust(3)
         else:
@@ -77,8 +86,6 @@ async def send_45_1(message_or_callback, user_id):
         current_buttons_45_1[user_id] = {
             f"b_45_1_{index}_{i}": ans for i, ans in enumerate(all_possible_answers, start=0)
         }
-        current_index_45_1[user_id] = index
-
         if isinstance(message_or_callback, CallbackQuery):
             await message_or_callback.message.answer(question, reply_markup=keyboard)
         else:
@@ -91,8 +98,27 @@ async def send_45_1(message_or_callback, user_id):
         else:
             await lesson_45_start(message_or_callback)
         return
+SEND_TEXT_45_2 = ''
 async def send_45_2(message_or_callback, user_id):
-    pass
+    try:
+        global SEND_TEXT_45_2
+        index = current_index_45_2.get(user_id, 0)
+        print("send_45_2: user", user_id, "index", index)
+        send_txt = textwrap.fill(SEND_TEXT_45_2 + TASK_45_2_TEXTS[index], width=60)
+        formatted_text = f"{send_txt}\n\n<b>Выберите слово и напишите его с правильным окончанием:</b>\n" \
+                         + "\n".join(f"<i>{word}</i>" for word in TIP_45_2)
+
+        # message_or_callback может быть CallbackQuery или Message
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.answer(formatted_text)
+        else:
+            await message_or_callback.answer(formatted_text)
+    except Exception:
+        if isinstance(message_or_callback, CallbackQuery):
+            await lesson_45_start(message_or_callback.message)
+        else:
+            await lesson_45_start(message_or_callback)
+
 
 async def send_45_3(message_or_callback, user_id):
     pass
@@ -104,6 +130,8 @@ async def send_45_5(message_or_callback, user_id):
 async def send_45_6(message_or_callback, user_id):
     pass
 
+
+#общий обработчик кнопок запускает для каждого задания свои current_indexes и функции для отправки сообщений
 sends_45 = [send_45_1, send_45_2, send_45_3, send_45_4, send_45_5, send_45_6]
 current_indexes_45 = [current_index_45_1, current_index_45_2, current_index_45_3, current_index_45_4, current_index_45_5, current_index_45_6]
 @router.callback_query(F.data.startswith("task_45"))
@@ -115,6 +143,7 @@ async def start_45(callback: CallbackQuery):
     await callback.answer()  # "убираем крутящийся кружок" на кнопке
     await func_45(callback, user_id)  # запускаем викторину
 
+#callback для 1 задачи
 @router.callback_query(F.data.startswith("b_45_1"))
 async def process_45_1_btn(callback: CallbackQuery):
     user_id = callback.from_user.id
@@ -136,3 +165,40 @@ async def process_45_1_btn(callback: CallbackQuery):
 
     current_index_45_1[user_id] += 1
     await send_45_1(callback, user_id)
+
+
+@router.message()
+async def handle_user_text(message: Message):
+    user_id = message.from_user.id
+
+    # Если пользователь проходит задание 45.2 (текстовое)
+    if user_id in current_index_45_2:
+        global SEND_TEXT_45_2
+        reply = message.text.lower()
+        print(reply)
+        index = current_index_45_2[user_id]
+        print(index)
+        correct_word = TASK_45_2_CORRECT[index]
+        current_sentence = TASK_45_2_TEXTS[index].replace('[____]', reply)
+        right_sentence = TASK_45_2_TEXTS[index].replace('[____]', correct_word)
+        remove_word = REMOVES_45_2[correct_word]
+        TIP_45_2.remove(remove_word)
+        print(current_sentence)
+        print(right_sentence)
+        if current_sentence == right_sentence:
+            await message.answer('✅ Верно!')
+            SEND_TEXT_45_2+=right_sentence
+        else:
+            await message.answer(f'❌ Неверно! Правильный ответ: {correct_word}')
+            SEND_TEXT_45_2+=right_sentence
+        current_index_45_2[user_id]+=1
+        await send_45_2(message, user_id)
+        return
+
+    # # Если пользователь проходит задание 45.3
+    # if user_id in current_index_45_3:
+    #     await handle_task_45_3(message)
+    #     return
+
+    # Если он не в режиме теста
+    await message.answer("Напишите /lesson_45 чтобы начать.")
