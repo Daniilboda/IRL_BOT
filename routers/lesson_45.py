@@ -48,18 +48,134 @@ REMOVES_45_2 = {
 
 
 # 3 задание
-TASK_45_3_TEXTS = ''' Виктор сидит за <b>(стол)</b> и читает газету. Вдруг он объявление о своей <b>(смерть)</b>.
-
+TASK_45_3_TEXTS = ''' Виктор сидит за <b>(стол)</b> и читает газету. Вдруг он увидел объявление о своей <b>(смерть)</b>.
 Виктор сразу позвонил своему <b>(друг)</b> Антону. — Антон! Ты читал объявление о <b>(моя смерть)</b>? — спросил Виктор.
  — Да, — ответил Антон. — А откуда ты говоришь?'''
 
 TASK_45_3_TEXTS = [sent.strip() for sent in TASK_45_3_TEXTS.split('.')]
 # print(TASK_45_3_TEXTS)
 REPLACES_45 = ['столом', 'смерти', 'другу', 'моей смерти']
-TASK_45_3_CORRECT = ''' Виктор сидит за <b>столом</b> и читает газету. Вдруг он объявление о своей <b>смерти</b>.
-
+TASK_45_3_CORRECT = ''' Виктор сидит за <b>столом</b> и читает газету. Вдруг увидел он увидел объявление о своей <b>смерти</b>.
 Виктор сразу позвонил своему <b>другу</b> Антону. — Антон! Ты читал объявление о <b>моей смерти</b>? — спросил Виктор.
  — Да, — ответил Антон. — А откуда ты говоришь?'''
+
+
+
+
+# 4 задание
+TASK_45_4_TEXTS = [
+    "Лекция обычно [____] два часа.",
+    "Студенты [____] писать тест десять минут назад.",
+    "Завтра фильм [____] в восемь вечера.",
+    "Раньше экзамены [____] июне.",
+    "Я не советую вам [____] эту работу в субботу."
+]
+
+
+TASK_45_4_CORRECT = [
+    "начинается",
+    "начали",
+    "начнётся",
+    "начинались",
+    "начинать"
+]
+
+TASK_45_4_WRONG = [
+    ["начинают", "начался", "начинать"],
+    ["начинают", "начинали", "начнет"],
+    ["начинает", "начинался", "начинают"],
+    ["начинал", "началал", "начинаются"],
+    ["начать", "начинаю", "начинается"]
+]
+
+#5 задание
+
+# Тексты заданий с [____] вместо пропусков
+TASK_45_5_TEXTS = [
+    "Сестре 15 лет, а брату 18 лет. Сестра [____] брата на 3 года.",
+    "Моя [____] сестра учится в университете.",
+    "Моя мама молодая, а бабушка [____].",
+    "Антон любит спорт и часто [____] в теннис.",
+    "Гид интересно [____] о Москве.",
+    "Брат [____] со своей сестрой.",
+    "Студент [____], когда будет перерыв.",
+    "Скоро экзамен. Студенты занимаются в библиотеке [____].",
+    "Троллейбус подошёл [____] станции метро.",
+    "Троллейбус отошёл [____] остановки.",
+    "Мы приехали [____] центр города.",
+    "Мы всегда проходим [____] парк.",
+    "Я хочу поблагодарить [____] за помощь.",
+    "Преподаватель разрешил [____] написать тест завтра.",
+    "Сегодня 10 февраля. Встреча будет [____].",
+    "Антон болен. Уже [____] он лежит дома.",
+    "Я поеду в Петербург [____].",
+    "[____] перерыва студенты гуляли на улице.",
+    "Я вернусь в Москву [____].",
+    "Девушка вышла из [____].",
+    "Банк находится перед [____].",
+    "Я не хочу идти [____].",
+    "Мы любим гулять по [____].",
+    "Новый проспект начинается за [____].",
+    "Гид рассказал о [____]."
+]
+
+# Правильные ответы
+TASK_45_5_CORRECT = {
+    0 : "младше",
+    1 : "старшая",
+    2 : "старая",
+    3 : "играет",
+    4 : "рассказывал",
+    5 : "разговаривал",
+    6 : "спросил",
+    7 : "в библиотеке",
+    8 : "к",
+    9 : "от",
+    10 : "в",
+    11 : "через",
+    12 : "их",
+    13 : "им",
+    14 : "через неделю",
+    15 : "неделю",
+    16 : "на неделю",
+    17 : "во время",
+    18 : "через неделю",
+    19 : "дома",
+    20 : "домом",
+    21 : "домой",
+    22 : "старому городу",
+    23 : "старым городом",
+    24 : "старом городе"
+}
+
+# Неправильные варианты
+TASK_45_5_WRONG = {
+    0 : ["молодая", "старшая"],
+    1 : ["старая", "молодая"],
+    2 : ["молодая", "младше"],
+    3 : ["занимается", "делает"],
+    4 : ["разговаривал", "сказал"],
+    5 : ["рассказывал", "сказал"],
+    6 : ["посоветовал", "попросил"],
+    7 : ["на", "через"],
+    8 : ["на", "у"],
+    9 : ["с", "возле"],
+    10 : ["на", "от"],
+    11 : ["мимо", "на"],
+    12 : ["им", "они"],
+    13 : ["их", "они"],
+    14 : ["неделя", "на неделю"],
+    15 : ["за неделю", "на неделю"],
+    16 : ["неделю", "на неделю"],
+    17 : ["под", "через"],
+    18 : ["неделю", "за неделю"],
+    19 : ["домой", "дом"],
+    20 : ["домой", "дом"],
+    21 : ["дома", "домом"],
+    22 : ["старый город", "старом городу", "старым городом"],
+    23 : ["старый город", "старом городе"],
+    24 : ["старый город", "старому городу", "старым городом"]
+}
 
 #отправка клаиватуры 45 урока
 @router.message(F.text == "/lesson_45")
@@ -68,9 +184,6 @@ async def lesson_45_start(message: Message):
         "Урок 45 — выберите задание:",
         reply_markup=get_kb_45()
     )
-
-
-# 4 задание
 
 
 current_index_45_1 = {}
@@ -155,12 +268,12 @@ async def send_45_3(message_or_callback, user_id):
         global SEND_TEXT_45_3
         index = current_index_45_3.get(user_id, 0)
         if index >= len(REPLACES_45):  # если вышли за пределы текста
-            await message_or_callback.answer(textwrap.fill(TASK_45_3_CORRECT, width=60))
+            await message_or_callback.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback)
             del current_index_45_3[user_id]
             SEND_TEXT_45_3 = ''
             return
-        send_txt = textwrap.fill(SEND_TEXT_45_3 + TASK_45_3_TEXTS[index], width=60)
+        send_txt = SEND_TEXT_45_3 + TASK_45_3_TEXTS[index]
         formatted_text = f"{send_txt}\n\n<b>Раскройте скобки:</b>"
 
         if isinstance(message_or_callback, CallbackQuery):
@@ -169,20 +282,71 @@ async def send_45_3(message_or_callback, user_id):
             await message_or_callback.answer(formatted_text)
     except Exception:
         if isinstance(message_or_callback, CallbackQuery):
-            await message_or_callback.message.answer(textwrap.fill(TASK_45_3_CORRECT, width=60))
+            await message_or_callback.message.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback.message)
             del current_index_45_3[user_id]
             SEND_TEXT_45_3 = ''
         else:
-            await message_or_callback.answer(textwrap.fill(TASK_45_3_CORRECT, width=60))
+            await message_or_callback.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback)
             del current_index_45_3[user_id]
             SEND_TEXT_45_3 = ''
 
 async def send_45_4(message_or_callback, user_id):
-    pass
+    try:
+        index = current_index_45_4[user_id]
+        question = TASK_45_4_TEXTS[index]
+        correct = TASK_45_4_CORRECT[index]
+        all_possible_answers = TASK_45_4_WRONG[index] + [correct]
+        random.shuffle(all_possible_answers)
+
+        builder = InlineKeyboardBuilder()
+        for i, answer in enumerate(all_possible_answers):
+            builder.button(text=answer, callback_data=f"b_45_4_{index}_{i}")
+        builder.adjust(2, 2)
+        keyboard = builder.as_markup()
+        current_buttons_45_4[user_id] = {
+            f"b_45_4_{index}_{i}": ans for i, ans in enumerate(all_possible_answers, start=0)
+        }
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.answer(question, reply_markup=keyboard)
+        else:
+            await message_or_callback.answer(question, reply_markup=keyboard)
+
+
+    except Exception:
+        if isinstance(message_or_callback, CallbackQuery):
+            await lesson_45_start(message_or_callback.message)
+        else:
+            await lesson_45_start(message_or_callback)
+        return
 async def send_45_5(message_or_callback, user_id):
-    pass
+    try:
+        index = current_index_45_5[user_id]
+        question = TASK_45_5_TEXTS[index]
+        correct = TASK_45_5_CORRECT[index]
+        all_possible_answers = TASK_45_5_WRONG[index] + [correct]
+        random.shuffle(all_possible_answers)
+
+        builder = InlineKeyboardBuilder()
+        for i, answer in enumerate(all_possible_answers):
+            builder.button(text=answer, callback_data=f"b_45_5_{index}_{i}")
+        builder.adjust(2)
+        keyboard = builder.as_markup()
+        current_buttons_45_5[user_id] = {
+            f"b_45_5_{index}_{i}": ans for i, ans in enumerate(all_possible_answers, start=0)
+        }
+        if isinstance(message_or_callback, CallbackQuery):
+            await message_or_callback.message.answer(question, reply_markup=keyboard)
+        else:
+            await message_or_callback.answer(question, reply_markup=keyboard)
+
+    except Exception:
+        if isinstance(message_or_callback, CallbackQuery):
+            await lesson_45_start(message_or_callback.message)
+        else:
+            await lesson_45_start(message_or_callback)
+    return
 
 async def send_45_6(message_or_callback, user_id):
     pass
@@ -215,9 +379,9 @@ async def process_45_1_btn(callback: CallbackQuery):
     answer = buttons_text[callback.data]
 
     if answer == correct:
-        await callback.message.answer(f"✅ ВЕРНО БЛЯТЬ! Ваш ответ: {answer}")
+        await callback.message.answer(f"✅ Верно! Ваш ответ: {answer}")
     else:
-        await callback.message.answer(f"❌ НЕ НИХУЯ! Правильный ответ: {correct}")
+        await callback.message.answer(f"❌ Неверно! Правильный ответ: {correct}")
     await callback.answer()
 
     current_index_45_1[user_id] += 1
@@ -228,7 +392,7 @@ async def process_45_1_btn(callback: CallbackQuery):
 async def handle_user_text(message: Message):
     user_id = message.from_user.id
 
-    # Если пользователь проходит задание 45.2 (текстовое)
+    #2 задание
     if user_id in current_index_45_2:
         global SEND_TEXT_45_2
         reply = message.text.lower()
@@ -238,8 +402,8 @@ async def handle_user_text(message: Message):
         right_sentence = TASK_45_2_TEXTS[index].replace('[____]', correct_word)
         remove_word = REMOVES_45_2[correct_word]
         TIP_45_2.remove(remove_word)
-        print(current_sentence)
-        print(right_sentence)
+        # print(current_sentence)
+        # print(right_sentence)
         if current_sentence == right_sentence:
             await message.answer('✅ Верно!')
             SEND_TEXT_45_2+=right_sentence
@@ -255,11 +419,11 @@ async def handle_user_text(message: Message):
     elif user_id in current_index_45_3:
         global SEND_TEXT_45_3
         reply = message.text.lower()
-        # print(SEND_TEXT_45_3 +TASK_45_3_TEXTS[i])
+
         index = current_index_45_3[user_id]
 
         if index >= len(REPLACES_45):
-            await message.answer(textwrap.fill(TASK_45_3_CORRECT, width=60))
+            await message.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message)
             del current_index_45_3[user_id]
             SEND_TEXT_45_3 = ''
@@ -267,21 +431,64 @@ async def handle_user_text(message: Message):
 
         if reply == REPLACES_45[index]:
             await message.answer('✅ Верно!')
-            TASK_45_3_TEXTS[index] = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
-            SEND_TEXT_45_3+=TASK_45_3_TEXTS[index] + '. '
+            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
+
+            SEND_TEXT_45_3+=TEMP_REP + '. '
+            print(SEND_TEXT_45_3)
         else:
             await message.answer(f'❌ Неверно! Правильный ответ: {REPLACES_45[index]}')
-            TASK_45_3_TEXTS[index] = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
-            SEND_TEXT_45_3+=TASK_45_3_TEXTS[index] + '. '
+            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
+            SEND_TEXT_45_3+=TEMP_REP + '. '
+            print(SEND_TEXT_45_3)
         current_index_45_3[user_id]+=1
         await send_45_3(message, user_id)
 
-        print(SEND_TEXT_45_3 + TASK_45_3_TEXTS[-1])
+        #print(SEND_TEXT_45_3 + TASK_45_3_TEXTS[-1])
 
-    # # Если пользователь проходит задание 45.3
-    # if user_id in current_index_45_3:
-    #     await handle_task_45_3(message)
-    #     return
 
-    # Если он не в режиме теста
-    # await message.answer("Напишите /lesson_45 чтобы начать.")
+#callback для 4 задачи
+@router.callback_query(F.data.startswith("b_45_4"))
+async def process_45_4_btn(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    index = current_index_45_4.get(user_id, 0)
+    buttons_text = current_buttons_45_4.get(user_id, {})
+
+    if callback.data not in buttons_text:
+        await callback.answer()
+        return
+
+    correct = TASK_45_4_CORRECT[index]
+    answer = buttons_text[callback.data]
+
+    if answer == correct:
+        await callback.message.answer(f"✅ Верно! Ваш ответ: {answer}")
+    else:
+        await callback.message.answer(f"❌ Неверно! Правильный ответ: {correct}")
+    await callback.answer()
+
+    current_index_45_4[user_id] += 1
+    await send_45_4(callback, user_id)
+
+
+#callback для 5 задачи
+@router.callback_query(F.data.startswith("b_45_5"))
+async def process_45_5_btn(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    index = current_index_45_5.get(user_id, 0)
+    buttons_text = current_buttons_45_5.get(user_id, {})
+
+    if callback.data not in buttons_text:
+        await callback.answer()
+        return
+
+    correct = TASK_45_5_CORRECT[index]
+    answer = buttons_text[callback.data]
+
+    if answer == correct:
+        await callback.message.answer(f"✅ Верно! Ваш ответ: {answer}")
+    else:
+        await callback.message.answer(f"❌ Неверно! Правильный ответ: {correct}")
+    await callback.answer()
+
+    current_index_45_5[user_id] += 1
+    await send_45_5(callback, user_id)
