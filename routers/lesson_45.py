@@ -5,7 +5,10 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 import random
 import re
 import textwrap
-router = Router()
+from aiogram.filters import Command
+from .comands_router import lesson_45_start
+from routers.comands_router import flag_current_activate
+router_45 = Router()
 
 # 1 здание
 TASK_45_1_TEXTS = [
@@ -30,7 +33,7 @@ TASK_45_1_CORRECT = {
 
 #2 задание
 TASK_45_2_TEXTS = """
-Мы приехали в театр, когда спектакль уже начался. В [____] концерта музыкант исполнял концерт Чайковского.
+«В [____] встречи мы знакомимся.»
 Через пять минут лекция закончится. В [____] лекции студенты обычно задают свои вопросы.
 Диалог президентов продолжался 30 минут. Потом был перерыв. Все ждали [____] диалога.
 Певица исполняла известную песню. Нам понравилось её [____].
@@ -64,7 +67,7 @@ TASK_45_3_CORRECT = ''' Виктор сидит за <b>столом</b> и чи
 
 # 4 задание
 TASK_45_4_TEXTS = [
-    "Лекция обычно [____] два часа.",
+    "Лекция обычно [____] в два часа.",
     "Студенты [____] писать тест десять минут назад.",
     "Завтра фильм [____] в восемь вечера.",
     "Раньше экзамены [____] июне.",
@@ -84,7 +87,7 @@ TASK_45_4_WRONG = [
     ["начинают", "начался", "начинать"],
     ["начинают", "начинали", "начнет"],
     ["начинает", "начинался", "начинают"],
-    ["начинал", "началал", "начинаются"],
+    ["начинал", "начанал", "начинаются"],
     ["начать", "начинаю", "начинается"]
 ]
 
@@ -178,12 +181,12 @@ TASK_45_5_WRONG = {
 }
 
 #отправка клаиватуры 45 урока
-@router.message(F.text == "/lesson_45")
-async def lesson_45_start(message: Message):
-    await message.answer(
-        "Урок 45 — выберите задание:",
-        reply_markup=get_kb_45()
-    )
+# @router_45.message(F.text == "/lesson_45")
+# async def lesson_45_start(message: Message):
+#     await message.answer(
+#         "Урок 45 — выберите задание:",
+#         reply_markup=get_kb_45()
+#     )
 
 
 current_index_45_1 = {}
@@ -192,6 +195,7 @@ current_index_45_3 = {}
 current_index_45_4 = {}
 current_index_45_5 = {}
 current_index_45_6 = {}
+
 current_buttons_45_1 = {}
 current_buttons_45_2 = {}
 current_buttons_45_3 = {}
@@ -240,7 +244,7 @@ async def send_45_2(message_or_callback, user_id):
         global TIP_45_2
         index = current_index_45_2.get(user_id, 0)
         print("send_45_2: user", user_id, "index", index)
-        send_txt = textwrap.fill(SEND_TEXT_45_2 + TASK_45_2_TEXTS[index], width=60)
+        send_txt = textwrap.fill(TASK_45_2_TEXTS[index], width=60)
         formatted_text = f"{send_txt}\n\n<b>Выберите слово и напишите его с правильным окончанием:</b>\n" \
                          + "\n".join(f"<i>{word}</i>" for word in TIP_45_2)
 
@@ -355,7 +359,7 @@ async def send_45_6(message_or_callback, user_id):
 #общий обработчик кнопок запускает для каждого задания свои current_indexes и функции для отправки сообщений
 sends_45 = [send_45_1, send_45_2, send_45_3, send_45_4, send_45_5, send_45_6]
 current_indexes_45 = [current_index_45_1, current_index_45_2, current_index_45_3, current_index_45_4, current_index_45_5, current_index_45_6]
-@router.callback_query(F.data.startswith("task_45"))
+@router_45.callback_query(F.data.startswith("task_45"))
 async def start_45(callback: CallbackQuery):
     func_45 = sends_45[int(callback.data.split('_')[-1])]
     user_id = callback.from_user.id
@@ -365,7 +369,7 @@ async def start_45(callback: CallbackQuery):
     await func_45(callback, user_id)  # запускаем викторину
 
 #callback для 1 задачи
-@router.callback_query(F.data.startswith("b_45_1"))
+@router_45.callback_query(F.data.startswith("b_45_1"))
 async def process_45_1_btn(callback: CallbackQuery):
     user_id = callback.from_user.id
     index = current_index_45_1.get(user_id, 0)
@@ -387,11 +391,9 @@ async def process_45_1_btn(callback: CallbackQuery):
     current_index_45_1[user_id] += 1
     await send_45_1(callback, user_id)
 
-
-@router.message()
+@router_45.message()
 async def handle_user_text(message: Message):
     user_id = message.from_user.id
-
     #2 задание
     if user_id in current_index_45_2:
         global SEND_TEXT_45_2
@@ -406,10 +408,10 @@ async def handle_user_text(message: Message):
         # print(right_sentence)
         if current_sentence == right_sentence:
             await message.answer('✅ Верно!')
-            SEND_TEXT_45_2+=right_sentence
+            SEND_TEXT_45_2 = right_sentence
         else:
             await message.answer(f'❌ Неверно! Правильный ответ: {correct_word}')
-            SEND_TEXT_45_2+=right_sentence
+            SEND_TEXT_45_2 = right_sentence
         current_index_45_2[user_id]+=1
         await send_45_2(message, user_id)
         return
@@ -447,7 +449,7 @@ async def handle_user_text(message: Message):
 
 
 #callback для 4 задачи
-@router.callback_query(F.data.startswith("b_45_4"))
+@router_45.callback_query(F.data.startswith("b_45_4"))
 async def process_45_4_btn(callback: CallbackQuery):
     user_id = callback.from_user.id
     index = current_index_45_4.get(user_id, 0)
@@ -471,7 +473,7 @@ async def process_45_4_btn(callback: CallbackQuery):
 
 
 #callback для 5 задачи
-@router.callback_query(F.data.startswith("b_45_5"))
+@router_45.callback_query(F.data.startswith("b_45_5"))
 async def process_45_5_btn(callback: CallbackQuery):
     user_id = callback.from_user.id
     index = current_index_45_5.get(user_id, 0)
