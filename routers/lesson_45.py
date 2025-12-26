@@ -277,15 +277,13 @@ async def send_45_3(message_or_callback, user_id):
     if user_id in current_index_45_2: #чтобы задания на печать текста работали нормально
         del current_index_45_2[user_id]
     try:
-        global SEND_TEXT_45_3
-        index = current_index_45_3.get(user_id, 0)
-        if index >= len(REPLACES_45):  # если вышли за пределы текста
+        index = current_index_45_3.get(user_id, [0, ''])
+        if index[0] >= len(REPLACES_45):  # если вышли за пределы текста
             await message_or_callback.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback)
             del current_index_45_3[user_id]
-            SEND_TEXT_45_3 = ''
             return
-        send_txt = SEND_TEXT_45_3 + TASK_45_3_TEXTS[index]
+        send_txt = index[1] + TASK_45_3_TEXTS[index[0]]
         formatted_text = f"{send_txt}\n\n<b>Раскройте скобки:</b>"
 
         if isinstance(message_or_callback, CallbackQuery):
@@ -297,12 +295,10 @@ async def send_45_3(message_or_callback, user_id):
             await message_or_callback.message.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback.message)
             del current_index_45_3[user_id]
-            SEND_TEXT_45_3 = ''
         else:
             await message_or_callback.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message_or_callback)
             del current_index_45_3[user_id]
-            SEND_TEXT_45_3 = ''
 
 async def send_45_4(message_or_callback, user_id):
     try:
@@ -375,6 +371,8 @@ async def start_45(callback: CallbackQuery):
     if int(callback.data.split('_')[-1]) == 1:
         copy_TIP_45_2 = TIP_45_2.copy()
         ind_45[user_id] = ind_45.get(user_id, [0, '', copy_TIP_45_2])
+    elif int(callback.data.split('_')[-1]) == 2:
+        ind_45[user_id] = ind_45.get(user_id, [0, ''])
     else:
         ind_45[user_id] = ind_45.get(user_id, 0)  # начинаем с первого вопроса
     await callback.answer()  # "убираем крутящийся кружок" на кнопке
@@ -428,30 +426,25 @@ async def handle_user_text(message: Message):
 
     #3 задание
     elif user_id in current_index_45_3:
-        global SEND_TEXT_45_3
         reply = message.text.lower()
 
         index = current_index_45_3[user_id]
 
-        if index >= len(REPLACES_45):
+        if index[0] >= len(REPLACES_45):
             await message.answer(TASK_45_3_CORRECT)
             await lesson_45_start(message)
             del current_index_45_3[user_id]
-            SEND_TEXT_45_3 = ''
             return
 
-        if reply == REPLACES_45[index]:
+        if reply == REPLACES_45[index[0]]:
             await message.answer('✅ Верно!')
-            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
-
-            SEND_TEXT_45_3+=TEMP_REP + '. '
-            print(SEND_TEXT_45_3)
+            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index[0]], TASK_45_3_TEXTS[index[0]])
+            current_index_45_3[user_id][1]+=TEMP_REP + '. '
         else:
-            await message.answer(f'❌ Неверно! Правильный ответ: {REPLACES_45[index]}')
-            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index], TASK_45_3_TEXTS[index])
-            SEND_TEXT_45_3+=TEMP_REP + '. '
-            print(SEND_TEXT_45_3)
-        current_index_45_3[user_id]+=1
+            await message.answer(f'❌ Неверно! Правильный ответ: {REPLACES_45[index[0]]}')
+            TEMP_REP = re.sub(r'\(.*?\)', REPLACES_45[index[0]], TASK_45_3_TEXTS[index[0]])
+            current_index_45_3[user_id][1]+=TEMP_REP + '. '
+        current_index_45_3[user_id][0]+=1
         await send_45_3(message, user_id)
 
         #print(SEND_TEXT_45_3 + TASK_45_3_TEXTS[-1])
