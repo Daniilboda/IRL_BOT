@@ -39,6 +39,7 @@ TASK_45_2_TEXTS = """
 Певица исполняла известную песню. Нам понравилось её [____].
 """
 TASK_45_2_TEXTS = [sent.strip() for sent in TASK_45_2_TEXTS.split('\n') if sent]
+print(TASK_45_2_TEXTS)
 TASK_45_2_CORRECT = ['начале', 'конце', 'продолжения', 'исполнение']
 TARGET_45_2 = "Задание 2. Заполните пропуски однокоренными существительными."
 TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
@@ -239,44 +240,37 @@ async def send_45_1(message_or_callback, user_id):
         return
 
 
-SEND_TEXT_45_2 = ''
 async def send_45_2(message_or_callback, user_id):
-    global REMOVES_45_2
-    global TIP_45_2
+    TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
     if user_id in current_index_45_3: #чтобы задания на печать текста работали нормально
         del current_index_45_3[user_id]
-        TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
-        REMOVES_45_2 = {
-            'начале': 'начало',
-            'конце': 'конец',
-            'продолжения': 'продолжение',
-            'исполнение': 'исполнение'
-        }
     try:
-        global SEND_TEXT_45_2
-        index = current_index_45_2.get(user_id, 0)
-        print("send_45_2: user", user_id, "index", index)
-        send_txt = textwrap.fill(TASK_45_2_TEXTS[index], width=60)
+        copy_TIP_45_2 = TIP_45_2.copy()
+        index = current_index_45_2.get(user_id, [0, '', copy_TIP_45_2])
+        print(index)
+        send_txt = TASK_45_2_TEXTS[index[0]]
+        print(send_txt)
         formatted_text = f"{send_txt}\n\n<b>Выберите слово и напишите его с правильным окончанием:</b>\n" \
-                         + "\n".join(f"<i>{word}</i>" for word in TIP_45_2)
+                         + "\n".join(f"<i>{word}</i>" for word in index[2])
 
         # message_or_callback может быть CallbackQuery или Message
         if isinstance(message_or_callback, CallbackQuery):
             await message_or_callback.message.answer(formatted_text)
         else:
             await message_or_callback.answer(formatted_text)
-    except Exception:
+    except Exception as e:
+        print(e)
         if isinstance(message_or_callback, CallbackQuery):
             await lesson_45_start(message_or_callback.message)
             del current_index_45_2[user_id]
-            SEND_TEXT_45_2 = ''
-            TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
+            # SEND_TEXT_45_2 = ''
+            # TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
 
         else:
             await lesson_45_start(message_or_callback)
             del current_index_45_2[user_id]
-            SEND_TEXT_45_2 = ''
-            TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
+            # SEND_TEXT_45_2 = ''
+            # TIP_45_2 = "продолжение,начало,исполнение,конец".split(',')
 
 SEND_TEXT_45_3 = ''
 async def send_45_3(message_or_callback, user_id):
@@ -378,7 +372,11 @@ async def start_45(callback: CallbackQuery):
     func_45 = sends_45[int(callback.data.split('_')[-1])]
     user_id = callback.from_user.id
     ind_45 = current_indexes_45[int(callback.data.split('_')[-1])]
-    ind_45[user_id] = ind_45.get(user_id, 0)  # начинаем с первого вопроса
+    if int(callback.data.split('_')[-1]) == 1:
+        copy_TIP_45_2 = TIP_45_2.copy()
+        ind_45[user_id] = ind_45.get(user_id, [0, '', copy_TIP_45_2])
+    else:
+        ind_45[user_id] = ind_45.get(user_id, 0)  # начинаем с первого вопроса
     await callback.answer()  # "убираем крутящийся кружок" на кнопке
     await func_45(callback, user_id)  # запускаем викторину
 
@@ -410,23 +408,20 @@ async def handle_user_text(message: Message):
     user_id = message.from_user.id
     #2 задание
     if user_id in current_index_45_2:
-        global SEND_TEXT_45_2
         reply = message.text.lower()
         index = current_index_45_2[user_id]
-        correct_word = TASK_45_2_CORRECT[index]
-        current_sentence = TASK_45_2_TEXTS[index].replace('[____]', reply)
-        right_sentence = TASK_45_2_TEXTS[index].replace('[____]', correct_word)
+        correct_word = TASK_45_2_CORRECT[index[0]]
+        current_sentence = TASK_45_2_TEXTS[index[0]].replace('[____]', reply)
+        right_sentence = TASK_45_2_TEXTS[index[0]].replace('[____]', correct_word)
         remove_word = REMOVES_45_2[correct_word]
-        TIP_45_2.remove(remove_word)
+        current_index_45_2[user_id][2].remove(remove_word)
         # print(current_sentence)
         # print(right_sentence)
         if current_sentence == right_sentence:
             await message.answer('✅ Верно!')
-            SEND_TEXT_45_2 = right_sentence
         else:
             await message.answer(f'❌ Неверно! Правильный ответ: {correct_word}')
-            SEND_TEXT_45_2 = right_sentence
-        current_index_45_2[user_id]+=1
+        current_index_45_2[user_id][0]+=1
         await send_45_2(message, user_id)
         return
 
