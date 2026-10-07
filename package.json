@@ -1,0 +1,11 @@
+{
+  "name": "diploma",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "serve": "npx --yes serve . -p 3000"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

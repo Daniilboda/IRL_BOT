@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Урок 2 — Русский A1</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <main class="home-page">
+      <header class="topbar">
+        <div class="brand">
+          <strong><a href="index.html">Русский A1</a></strong>
+          <span>упражнения</span>
+        </div>
+      </header>
+      <section class="panel">
+        <div class="section-heading">
+          <p>Модуль A · Урок 2</p>
+          <h2>Притяжательные местоимения и отрицание</h2>
+        </div>
+        <p class="material-item" style="margin-top: 14px">
+          Упражнения сделаны по рабочей тетради «Прогресс», часть I (задания 15, 17,
+          18, 19): модели <strong>мой/моя/моё</strong>, <strong>наш/наша/наше</strong>,
+          короткие отрицательные ответы.
+        </p>
+
+        <div class="module-list">
+          <section class="module-item">
+            <h3>1) Вставьте притяжательное местоимение</h3>
+            <p>Образец: Это я. Это <strong>мой</strong> друг.</p>
+            <div class="exercise-form">
+              <label for="l2-ex1-1">Это я. Это ___ фото.</label>
+              <input id="l2-ex1-1" type="text" placeholder="Напишите слово" />
+
+              <label for="l2-ex1-2">Это я. Вот ___ мама.</label>
+              <input id="l2-ex1-2" type="text" placeholder="Напишите слово" />
+
+              <label for="l2-ex1-3">Это ты. Это ___ дом.</label>
+              <input id="l2-ex1-3" type="text" placeholder="Напишите слово" />
+
+              <label for="l2-ex1-4">Это ты. Это ___ квартира.</label>
+              <input id="l2-ex1-4" type="text" placeholder="Напишите слово" />
+
+              <button id="l2-check-ex1" class="action-link" type="button">Проверить</button>
+              <p id="l2-result-ex1" class="result-text"></p>
+            </div>
+          </section>
+
+          <section class="module-item">
+            <h3>2) Выберите форму: наш / наша / наше</h3>
+            <p>Ориентируйтесь на род существительного.</p>
+            <div class="exercise-form">
+              <label>___ банк:
+                <select id="l2-ex2-1">
+                  <option value="">Выберите</option>
+                  <option value="наш">наш</option>
+                  <option value="наша">наша</option>
+                  <option value="наше">наше</option>
+                </select>
+              </label>
+
+              <label>___ группа:
+                <select id="l2-ex2-2">
+                  <option value="">Выберите</option>
+                  <option value="наш">наш</option>
+                  <option value="наша">наша</option>
+                  <option value="наше">наше</option>
+                </select>
+              </label>
+
+              <label>___ письмо:
+                <select id="l2-ex2-3">
+                  <option value="">Выберите</option>
+                  <option value="наш">наш</option>
+                  <option value="наша">наша</option>
+                  <option value="наше">наше</option>
+                </select>
+              </label>
+
+              <label>___ машина:
+                <select id="l2-ex2-4">
+                  <option value="">Выберите</option>
+                  <option value="наш">наш</option>
+                  <option value="наша">наша</option>
+                  <option value="наше">наше</option>
+                </select>
+              </label>
+
+              <button id="l2-check-ex2" class="action-link" type="button">Проверить</button>
+              <p id="l2-result-ex2" class="result-text"></p>
+            </div>
+          </section>
+
+          <section class="module-item">
+            <h3>3) Дайте отрицательный ответ по образцу</h3>
+            <p>
+              Образец: Это журнал? — <strong>Нет, это не журнал, это газета.</strong>
+            </p>
+            <div class="exercise-form">
+              <label for="l2-ex3-1">Это музей?</label>
+              <input id="l2-ex3-1" type="text" placeholder="Ваш ответ" />
+
+              <label for="l2-ex3-2">Это аптека?</label>
+              <input id="l2-ex3-2" type="text" placeholder="Ваш ответ" />
+
+              <label for="l2-ex3-3">Это банк?</label>
+              <input id="l2-ex3-3" type="text" placeholder="Ваш ответ" />
+
+              <button id="l2-check-ex3" class="action-link" type="button">Проверить</button>
+              <p id="l2-result-ex3" class="result-text"></p>
+            </div>
+          </section>
+
+          <section class="module-item">
+            <h3>4) Самодиктант</h3>
+            <p>
+              Прочитайте предложение, запомните и нажмите кнопку перехода к записи.
+            </p>
+            <div class="dictation-list">
+              <article class="dictation-card" data-answer="Это наша комната.">
+                <h4>Предложение 1</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Это наша комната.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+
+              <article class="dictation-card" data-answer="Это мой друг Иван.">
+                <h4>Предложение 2</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Это мой друг Иван.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+
+              <article class="dictation-card" data-answer="Вот его карандаш и журнал.">
+                <h4>Предложение 3</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Вот его карандаш и журнал.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+
+              <article class="dictation-card" data-answer="Вот наш класс.">
+                <h4>Предложение 4</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Вот наш класс.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+
+              <article class="dictation-card" data-answer="Это наша группа.">
+                <h4>Предложение 5</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Это наша группа.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+
+              <article class="dictation-card" data-answer="Он мой друг.">
+                <h4>Предложение 6</h4>
+                <div class="dictation-read">
+                  <p class="dictation-text">Он мой друг.</p>
+                  <button class="action-link dictation-finish" type="button">Я прочитал(а), перейти к записи</button>
+                </div>
+                <div class="dictation-write is-hidden">
+                  <label>Напишите предложение по памяти</label>
+                  <textarea class="dictation-input" rows="2" placeholder="Ваш текст"></textarea>
+                  <button class="action-link dictation-check" type="button">Проверить</button>
+                  <p class="result-text dictation-result"></p>
+                  <p class="dictation-answer is-hidden"></p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="module-item">
+            <h3>5) Говорение: произнесите фразу</h3>
+            <p>
+              Скажите: <strong>«Это моя комната. Вот мой стол и моя лампа.»</strong><br />
+              Нажмите кнопку, дайте доступ к микрофону и произнесите фразу.
+            </p>
+            <div class="exercise-form">
+              <button id="l2-start-voice-check" class="action-link" type="button">Начать запись и проверку</button>
+              <p id="l2-voice-status" class="result-text"></p>
+              <p id="l2-voice-heard" class="result-text"></p>
+            </div>
+          </section>
+        </div>
+        <div class="module-item" style="margin-top: 12px">
+          <h3>Итоговая проверка урока</h3>
+          <p>Проверьте все задания сразу и получите рекомендацию.</p>
+          <button id="l2-check-all" class="action-link" type="button">Проверить весь урок</button>
+          <p id="l2-result-all" class="result-text"></p>
+          <p id="l2-theory-hint" class="result-text"></p>
+        </div>
+        <a class="action-link" href="index.html">На главную</a>
+      </section>
+    </main>
+    <script src="js/lesson2.js" defer></script>
+  </body>
+</html>

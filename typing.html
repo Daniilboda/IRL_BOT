@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Русский A1 - Клавиатурный тренажер</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/typing.css" />
+  </head>
+  <body>
+    <main class="home-page typing-page">
+      <header class="topbar typing-topbar">
+        <div class="brand">
+          <strong><a href="index.html">Русский A1</a></strong>
+          <span>клавиатурный тренажер</span>
+        </div>
+        <a href="index.html" class="action-link back-link">На главную</a>
+      </header>
+
+      <section class="panel typing-panel">
+        <div class="section-heading">
+          <p>Практика</p>
+          <h2>Клавиатурный тренажер</h2>
+        </div>
+
+        <div class="controls-panel">
+          <div class="control-group">
+            <label>Раскладка:</label>
+            <button id="lang-ru" class="lang-btn active">Русская</button>
+            <button id="lang-en" class="lang-btn">English</button>
+          </div>
+          <div class="control-group">
+            <button id="start-btn" class="start-btn">Начать печать</button>
+            <button id="pause-btn" class="pause-btn is-hidden">Пауза</button>
+            <button id="restart-btn" class="restart-btn is-hidden">Заново</button>
+          </div>
+        </div>
+
+        <div class="stats-panel">
+          <div class="stat-box">
+            <span class="stat-label">Время</span>
+            <span id="timer" class="stat-value">3:00</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Скорость</span>
+            <span id="speed" class="stat-value">0 зн/мин</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Точность</span>
+            <span id="accuracy" class="stat-value">100%</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Символов</span>
+            <span id="chars-typed" class="stat-value">0</span>
+          </div>
+        </div>
+
+        <div class="text-display">
+          <div id="text-container" class="text-container">
+            <p class="placeholder-text">Нажмите "Начать печать" или пробел.</p>
+          </div>
+        </div>
+
+        <div class="keyboard-container">
+          <div id="keyboard" class="keyboard"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="pause-overlay" class="pause-overlay">
+      <div class="pause-title">Пауза</div>
+      <div class="pause-hint">Нажмите Esc для продолжения</div>
+    </div>
+
+    <div id="results-modal" class="modal is-hidden">
+      <div class="modal-content">
+        <h2>Результаты</h2>
+        <div class="results-stats">
+          <p>Время: <span id="result-time"></span></p>
+          <p>Скорость: <span id="result-speed"></span> зн/мин</p>
+          <p>Точность: <span id="result-accuracy"></span>%</p>
+          <p>Напечатано символов: <span id="result-chars"></span></p>
+          <p>Ошибок: <span id="result-errors"></span></p>
+        </div>
+        <div class="rating">
+          <span id="rating-text"></span>
+        </div>
+        <button id="close-modal" class="close-btn">Закрыть</button>
+      </div>
+    </div>
+
+    <script src="js/typing.js" defer></script>
+  </body>
+</html>
